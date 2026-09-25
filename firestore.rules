@@ -1,0 +1,88 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.email == 'gridandgift@gmail.com';
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Admins document lookup
+    match /admins/{userId} {
+      allow read: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+      allow write: if isAdmin();
+    }
+
+    // Clinic settings (Public read, admin write)
+    match /clinicSettings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Opening hours (Public read, admin write)
+    match /openingHours/{dayId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Treatments (Public read, admin write)
+    match /treatments/{treatmentId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Reviews (Public read, admin write)
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Gallery (Public read, admin write)
+    match /gallery/{galleryId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // FAQs (Public read, admin write)
+    match /faqs/{faqId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Appointments: Public can create appointment requests with validation, only admin can read, update, delete
+    match /appointments/{appointmentId} {
+      allow read, update, delete: if isAdmin();
+      allow create: if request.resource.data.patientName is string &&
+                       request.resource.data.patientName.size() > 0 &&
+                       request.resource.data.patientName.size() <= 100 &&
+                       request.resource.data.phone is string &&
+                       request.resource.data.phone.size() >= 7 &&
+                       request.resource.data.phone.size() <= 20 &&
+                       request.resource.data.status == 'new';
+    }
+
+    // Enquiries: Public can create enquiries with validation, only admin can read, update, delete
+    match /enquiries/{enquiryId} {
+      allow read, update, delete: if isAdmin();
+      allow create: if request.resource.data.name is string &&
+                       request.resource.data.name.size() > 0 &&
+                       request.resource.data.name.size() <= 100 &&
+                       request.resource.data.phone is string &&
+                       request.resource.data.phone.size() >= 7 &&
+                       request.resource.data.phone.size() <= 20 &&
+                       request.resource.data.status == 'new';
+    }
+  }
+}

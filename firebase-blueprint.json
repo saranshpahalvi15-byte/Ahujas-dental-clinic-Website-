@@ -1,0 +1,185 @@
+{
+  "entities": {
+    "ClinicSetting": {
+      "title": "Clinic Settings",
+      "description": "General settings and contact info for Ahuja's Dental Clinic",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 128 },
+        "tagline": { "type": "string", "maxLength": 256 },
+        "address": { "type": "string", "maxLength": 256 },
+        "landmark": { "type": "string", "maxLength": 128 },
+        "city": { "type": "string", "maxLength": 64 },
+        "state": { "type": "string", "maxLength": 64 },
+        "pincode": { "type": "string", "maxLength": 16 },
+        "phone": { "type": "string", "maxLength": 20 },
+        "whatsapp": { "type": "string", "maxLength": 20 },
+        "email": { "type": "string", "maxLength": 128 },
+        "mapsUrl": { "type": "string", "maxLength": 512 },
+        "googleBusinessUrl": { "type": "string", "maxLength": 512 },
+        "heroTitle": { "type": "string", "maxLength": 256 },
+        "heroSubtitle": { "type": "string", "maxLength": 512 },
+        "aboutText": { "type": "string", "maxLength": 4096 },
+        "doctorName": { "type": "string", "maxLength": 128 },
+        "doctorTitle": { "type": "string", "maxLength": 128 },
+        "doctorSpecialization": { "type": "string", "maxLength": 256 },
+        "doctorExperience": { "type": "string", "maxLength": 128 },
+        "doctorBio": { "type": "string", "maxLength": 2048 },
+        "doctorPhoto": { "type": "string", "maxLength": 512 }
+      },
+      "required": ["name", "address", "phone", "whatsapp"]
+    },
+    "OpeningHour": {
+      "title": "Opening Hours",
+      "description": "Day by day clinic timing schedule",
+      "type": "object",
+      "properties": {
+        "day": { "type": "string", "enum": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] },
+        "isOpen": { "type": "boolean" },
+        "morningSlot": { "type": "string", "maxLength": 64 },
+        "eveningSlot": { "type": "string", "maxLength": 64 },
+        "note": { "type": "string", "maxLength": 128 }
+      },
+      "required": ["day", "isOpen"]
+    },
+    "Treatment": {
+      "title": "Treatment",
+      "description": "Dental treatment details, instructions and indications",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "slug": { "type": "string", "maxLength": 64 },
+        "name": { "type": "string", "maxLength": 128 },
+        "shortDescription": { "type": "string", "maxLength": 512 },
+        "fullDescription": { "type": "string", "maxLength": 4096 },
+        "category": { "type": "string", "maxLength": 64 },
+        "icon": { "type": "string", "maxLength": 64 },
+        "benefits": { "type": "array" },
+        "whoNeedsIt": { "type": "array" },
+        "procedureSteps": { "type": "array" },
+        "aftercare": { "type": "array" },
+        "faqs": { "type": "array" },
+        "isActive": { "type": "boolean" },
+        "order": { "type": "number" }
+      },
+      "required": ["name", "slug", "shortDescription", "isActive"]
+    },
+    "Appointment": {
+      "title": "Appointment Request",
+      "description": "Patient appointment request entry",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "patientName": { "type": "string", "maxLength": 100 },
+        "phone": { "type": "string", "maxLength": 20 },
+        "email": { "type": "string", "maxLength": 100 },
+        "preferredDate": { "type": "string", "maxLength": 30 },
+        "preferredTime": { "type": "string", "maxLength": 30 },
+        "treatmentId": { "type": "string", "maxLength": 64 },
+        "treatmentName": { "type": "string", "maxLength": 128 },
+        "message": { "type": "string", "maxLength": 1000 },
+        "consentGiven": { "type": "boolean" },
+        "status": { "type": "string", "enum": ["new", "contacted", "confirmed", "completed", "cancelled"] },
+        "adminNotes": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["patientName", "phone", "preferredDate", "consentGiven", "status"]
+    },
+    "Enquiry": {
+      "title": "General Contact Enquiry",
+      "description": "General enquiry or message submitted by a visitor",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "name": { "type": "string", "maxLength": 100 },
+        "phone": { "type": "string", "maxLength": 20 },
+        "email": { "type": "string", "maxLength": 100 },
+        "subject": { "type": "string", "maxLength": 150 },
+        "message": { "type": "string", "maxLength": 1500 },
+        "status": { "type": "string", "enum": ["new", "replied", "archived"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "phone", "message", "status"]
+    },
+    "Review": {
+      "title": "Verified Review",
+      "description": "Verified patient feedback and ratings",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "authorName": { "type": "string", "maxLength": 100 },
+        "rating": { "type": "number" },
+        "reviewText": { "type": "string", "maxLength": 1500 },
+        "treatmentName": { "type": "string", "maxLength": 100 },
+        "date": { "type": "string", "maxLength": 50 },
+        "isVerified": { "type": "boolean" },
+        "isActive": { "type": "boolean" },
+        "source": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["authorName", "rating", "reviewText", "isActive"]
+    },
+    "GalleryItem": {
+      "title": "Gallery Item",
+      "description": "Photographs of clinic, equipment, reception, etc.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "title": { "type": "string", "maxLength": 128 },
+        "imageUrl": { "type": "string", "maxLength": 512 },
+        "category": { "type": "string", "enum": ["Clinic", "Reception", "Treatment Room", "Equipment", "Team", "Exterior"] },
+        "altText": { "type": "string", "maxLength": 256 },
+        "order": { "type": "number" },
+        "isActive": { "type": "boolean" }
+      },
+      "required": ["title", "imageUrl", "category", "isActive"]
+    },
+    "FAQ": {
+      "title": "FAQ Entry",
+      "description": "Frequently asked dental question and answer",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "question": { "type": "string", "maxLength": 256 },
+        "answer": { "type": "string", "maxLength": 2048 },
+        "category": { "type": "string", "maxLength": 64 },
+        "order": { "type": "number" },
+        "isActive": { "type": "boolean" }
+      },
+      "required": ["question", "answer", "isActive"]
+    }
+  },
+  "firestore": {
+    "/clinicSettings/{docId}": {
+      "schema": { "$ref": "#/entities/ClinicSetting" },
+      "description": "Singleton configuration document for clinic details"
+    },
+    "/openingHours/{dayId}": {
+      "schema": { "$ref": "#/entities/OpeningHour" },
+      "description": "Daily clinic opening hours"
+    },
+    "/treatments/{treatmentId}": {
+      "schema": { "$ref": "#/entities/Treatment" },
+      "description": "Dental treatment procedures catalog"
+    },
+    "/appointments/{appointmentId}": {
+      "schema": { "$ref": "#/entities/Appointment" },
+      "description": "Patient appointment requests"
+    },
+    "/enquiries/{enquiryId}": {
+      "schema": { "$ref": "#/entities/Enquiry" },
+      "description": "General patient contact messages"
+    },
+    "/reviews/{reviewId}": {
+      "schema": { "$ref": "#/entities/Review" },
+      "description": "Verified patient reviews"
+    },
+    "/gallery/{galleryId}": {
+      "schema": { "$ref": "#/entities/GalleryItem" },
+      "description": "Clinic photo gallery items"
+    },
+    "/faqs/{faqId}": {
+      "schema": { "$ref": "#/entities/FAQ" },
+      "description": "Frequently Asked Questions"
+    }
+  }
+}

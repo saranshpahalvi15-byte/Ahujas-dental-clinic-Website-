@@ -1,0 +1,6 @@
+{
+  "name": "Ahuja's Dental Clinic - Sector 10 Ambala",
+  "description": "Professional dental care clinic in Sector 10 Market, Ambala. Easy appointment requests, treatments, verified clinic details, and direct contact.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
