@@ -7,7 +7,6 @@ import { FeaturedTreatments } from '../components/home/FeaturedTreatments';
 import { WhyChooseUs } from '../components/home/WhyChooseUs';
 import { LocationSection } from '../components/home/LocationSection';
 import { FaqSection } from '../components/home/FaqSection';
-import { MedicalDisclaimer } from '../components/common/MedicalDisclaimer';
 
 interface HomePageProps {
   onNavigate: (page: NavigationPage, params?: { slug?: string }) => void;
@@ -16,7 +15,6 @@ interface HomePageProps {
 export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   return (
     <div>
-      <MedicalDisclaimer variant="banner" />
       <HeroSection onNavigate={onNavigate} />
       <TrustStrip />
       <FeaturedTreatments onNavigate={onNavigate} />
